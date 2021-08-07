@@ -20,7 +20,7 @@ import java.util.List;
 
 
 public class RecylerFragment extends Fragment {
-    EditText edttitle,edtdes;
+    EditText edtTitle,edtDes;
     Button btnAdd,btnList;
     RecyclerView recyclerView;
     TodoAdapter todoAdapter;
@@ -29,11 +29,14 @@ public class RecylerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView=view.findViewById(R.id.test);
-        edttitle=view.findViewById(R.id.edttitle);
-        edtdes=view.findViewById(R.id.edtdes);
+        edtTitle=view.findViewById(R.id.edttitle);
+        edtDes=view.findViewById(R.id.edtdes);
         btnAdd=view.findViewById(R.id.btnAdd);
         btnList=view.findViewById(R.id.btnList);
         searchView=view.findViewById(R.id.searchview);
+        todoAdapter=new TodoAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        loadData();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -42,33 +45,40 @@ public class RecylerFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                List<Todo> list=TodoDatabase.getInstance(getContext()).TodoDAO().search(newText);
-                todoAdapter.getAll(list);
-                recyclerView.setAdapter(todoAdapter);
+                searchData(newText);
                 return true;
             }
         });
-        todoAdapter=new TodoAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title=edttitle.getText().toString();
-                String des=edtdes.getText().toString();
-                Todo todo=new Todo(title,des);
-                TodoDatabase.getInstance(v.getContext()).TodoDAO().insertTodo(todo);
+                addData();
+                loadData();
             }
         });
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Todo> list;
-                list=TodoDatabase.getInstance(v.getContext()).TodoDAO().getListtodo();
-                todoAdapter.getAll(list);
-                edtdes.setText(String.valueOf(todoAdapter.getItemCount()));
-                recyclerView.setAdapter(todoAdapter);
+                loadData();
             }
         });
+    }
+    public void loadData(){
+        List<Todo> list;
+        list=TodoDatabase.getInstance(getContext()).TodoDAO().getListTodo();
+        todoAdapter.getAll(list);
+        recyclerView.setAdapter(todoAdapter);
+    }
+    public void addData(){
+        String title=edtTitle.getText().toString();
+        String des=edtDes.getText().toString();
+        Todo todo=new Todo(title,des);
+        TodoDatabase.getInstance(getContext()).TodoDAO().insertTodo(todo);
+    }
+    public void searchData(String newText){
+        List<Todo> list=TodoDatabase.getInstance(getContext()).TodoDAO().search(newText);
+        todoAdapter.getAll(list);
+        recyclerView.setAdapter(todoAdapter);
     }
 
     @Override

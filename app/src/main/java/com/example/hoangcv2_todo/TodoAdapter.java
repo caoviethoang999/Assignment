@@ -54,6 +54,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ItemViewHolder
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
                 TodoFragment miscellaneousfragment = new TodoFragment();
                 Bundle bundle = new Bundle();
+                bundle.putInt("id",todo.getId());
                 bundle.putString("title", todo.getTitle());
                 bundle.putString("description", todo.getDescription());
                 miscellaneousfragment.setArguments(bundle);

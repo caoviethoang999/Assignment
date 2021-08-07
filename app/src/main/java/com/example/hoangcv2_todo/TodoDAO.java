@@ -14,7 +14,7 @@ public interface TodoDAO {
     void insertTodo(Todo todo);
 
     @Query("SELECT * FROM todo")
-    List<Todo> getListtodo();
+    List<Todo> getListTodo();
 
     @Query("SELECT * FROM todo WHERE title LIKE '%' || :title || '%'")
     List<Todo> search(String title);
@@ -25,6 +25,6 @@ public interface TodoDAO {
     @Delete
     void delete(Todo todo);
 
-    @Query("UPDATE todo SET description = :description WHERE title =:title")
-    void updateTodo(String description,String title);
+    @Query("UPDATE todo SET description = :description,title =:title WHERE id=:id")
+    void updateTodo(String description,String title,int id);
 }

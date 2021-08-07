@@ -15,27 +15,26 @@ import android.widget.EditText;
 
 
 public class TodoFragment extends Fragment {
-    EditText edttitle2,edtdes2;
+    EditText edtTitle2,edtDes2;
     Button btnUpdate2,btnBack;
+    int id;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        edttitle2=view.findViewById(R.id.edttitle2);
-        edtdes2=view.findViewById(R.id.edtdes2);
+        edtTitle2=view.findViewById(R.id.edttitle2);
+        edtDes2=view.findViewById(R.id.edtdes2);
         btnUpdate2=view.findViewById(R.id.btnUpdate2);
         btnBack=view.findViewById(R.id.btnBack);
         Bundle bundle = this.getArguments();
-        String title = bundle.get("title").toString();
-        String description = bundle.get("description").toString();
-        edttitle2.setText(title);
-        edtdes2.setText(description);
-        edttitle2.setEnabled(false);
+        String title = bundle.getString("title");
+        String description = bundle.getString("description");
+        id= bundle.getInt("id");
+        edtTitle2.setText(title);
+        edtDes2.setText(description);
         btnUpdate2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String titlechange=edttitle2.getText().toString();
-                String deschange=edtdes2.getText().toString();
-                TodoDatabase.getInstance(v.getContext()).TodoDAO().updateTodo(deschange,titlechange);
+                updateData();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +45,11 @@ public class TodoFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, recylerFragment).commit();
             }
         });
+    }
+    public void updateData(){
+        String titleChange=edtTitle2.getText().toString();
+        String desChange=edtDes2.getText().toString();
+        TodoDatabase.getInstance(getContext()).TodoDAO().updateTodo(desChange,titleChange,id);
     }
 
     @Override
