@@ -26,5 +26,5 @@ public interface TodoDAO {
     void delete(Todo todo);
 
     @Query("UPDATE todo SET description = :description,title =:title WHERE id=:id")
-    void updateTodo(String description,String title,int id);
+    void updateTodo(String description, String title, int id);
 }

@@ -52,7 +52,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ItemViewHolder
             @Override
             public void onClick(View v) {
                 AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                TodoFragment miscellaneousfragment = new TodoFragment();
+                EditListNoteFragment miscellaneousfragment = new EditListNoteFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",todo.getId());
                 bundle.putString("title", todo.getTitle());

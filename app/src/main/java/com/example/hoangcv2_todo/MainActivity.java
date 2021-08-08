@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecylerFragment recylerFragment = new RecylerFragment();
+        ListNoteFragment recylerFragment = new ListNoteFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, recylerFragment).commit();
     }
 }
